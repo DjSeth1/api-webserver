@@ -1,5 +1,5 @@
 from init import db, ma 
-from models.appointment import Appointment
+
 
 
 class User(db.Model):
@@ -13,6 +13,8 @@ class User(db.Model):
     phone = db.Column(db.String(40))
     is_admin = db.Column(db.Boolean(), default=False)
     
-    appointment = db.relationship('Appointment', back_populates = 'user', cascade = 'all, delete')
+    appointment = db.relationship('Appointment', back_populates = 'users', cascade = 'all, delete', uselist = False) #sets up foreign key
+
+
 
 
