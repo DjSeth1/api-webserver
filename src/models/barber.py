@@ -9,12 +9,11 @@ class Barber(db.Model):
     f_name = db.Column(db.String(64), nullable = False)
     l_name = db.Column(db.String(64), nullable = False)
     email = db.Column(db.String(), nullable = False)
+    password = db.Column(db.String(), nullable = False)
     phone = db.Column(db.String(), nullable = False)
     is_admin = db.Column(db.Boolean(), default=False)
     time_slots = db.Column(db.Time)
     #foreign keys
-    appointment = db.relationship('Appointment', back_populates = 'barber', cascade = 'all, delete') 
-    service = db.relationship('Service', back_populates = 'barber', cascade = 'all, delete')
 
 
 
