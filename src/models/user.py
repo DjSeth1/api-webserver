@@ -13,6 +13,9 @@ class User(db.Model):
     phone = db.Column(db.String(40))
     is_admin = db.Column(db.Boolean(), default=False)
     
+
+    #relationships
+    appointments = db.relationship('Appointment', back_populates = 'users', cascade = 'all, delete', uselist = False)
    
 
 

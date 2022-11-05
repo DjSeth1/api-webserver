@@ -12,9 +12,14 @@ class Barber(db.Model):
     password = db.Column(db.String(), nullable = False)
     phone = db.Column(db.String(), nullable = False)
     is_admin = db.Column(db.Boolean(), default=False)
-    time_slots = db.Column(db.Time)
+    time_slots = db.Column(db.String())
     #foreign keys
+    service_id = db.Column(db.Integer, db.ForeignKey('services.id'), nullable = False)
 
+    #relationships
+    appointments = db.relationship('Appointment', back_populates = 'barbers', cascade = 'all, delete')
+
+    services = db.relationship('Service', back_populates = 'barbers', cascade = 'all, delete')
 
 
 

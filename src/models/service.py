@@ -8,3 +8,10 @@ class Service(db.Model):
     price = db.Column(db.Integer, nullable = False)
 
 
+
+    #relationships
+    appointments = db.relationship('Appointment', back_populates = 'services', cascade = 'all, delete')
+    barbers = db.relationship('Barber', back_populates = 'services')
+
+
+

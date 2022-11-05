@@ -31,7 +31,7 @@ def seed_db():
             price = 45
         )
 
-    ],
+    ]
 
     db.session.add_all(services)
     db.session.commit()
@@ -44,7 +44,7 @@ def seed_db():
             password = bcrypt.generate_password_hash('dogsandcats').decode('utf-8'),
             phone = '021746435',
             is_admin = False,
-            appointment = None
+
         ),
 
         User(
@@ -54,40 +54,41 @@ def seed_db():
             password = bcrypt.generate_password_hash('dogsandcats1').decode('utf-8'),
             phone = '0245322134',
             is_admin = False,
-            appointment = appointments[0]
+
 
         )
 
     ]
+
+    db.session.add_all(users)
+    db.session.commit()
+
     barbers = [
         Barber(
-            f_name = 'Byron',
-            l_name = 'Hogan',
+            f_name = "Byron",
+            l_name = "Hogan",
             email = 'byronhogan@gmail.com',
             password = bcrypt.generate_password_hash('dogsandcats2').decode('utf-8'),
             phone = '0214253543', 
             is_admin = True,
-            time_slots = time[
-                (10,00,00),
-                (11,00,00)
-
-            ],
-            appointment = appointments[0],
-            service = services[0][1] 
+            time_slots = ['10:00', '11:00'],
+            services = services[1]
         )
     ]
 
+    db.session.add_all(barbers)
+    db.session.commit()
 
     appointments = [
         Appointment(
-            user = users[1],
-            service = services[1],
-            barber = barbers[0]
+            users = users[1],
+            services = services[1],
+            barbers = barbers[0],
+            time = '10:00'
         )
     ]
 
-    db.session.add_all(users)
     db.session.add_all(appointments)
-    db.session.add_all(barbers)
-    db.commit()
+    db.session.commit()
+    print('Tables Seeded!')
 
