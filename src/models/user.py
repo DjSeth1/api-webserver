@@ -12,7 +12,7 @@ class User(db.Model):
     password = db.Column(db.String(), nullable = False)
     phone = db.Column(db.String(40))
     is_admin = db.Column(db.Boolean(), default=False)
-    
+
 
     #relationships
     appointments = db.relationship('Appointment', back_populates = 'users', cascade = 'all, delete', uselist = False)

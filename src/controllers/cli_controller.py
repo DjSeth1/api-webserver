@@ -1,6 +1,5 @@
 from flask import Blueprint
 from init import db, bcrypt
-from datetime import time
 from models.user import User
 from models.appointment import Appointment
 from models.barber import Barber

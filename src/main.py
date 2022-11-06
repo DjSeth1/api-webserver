@@ -1,5 +1,6 @@
 from flask import Flask
 from controllers.cli_controller import db_commands
+from controllers.auth_controller import auth_bp
 from init import db, ma, bcrypt, jwt
 import os
 
@@ -27,6 +28,7 @@ def create_app():
 
     #registering blueprints from controllers
     app.register_blueprint(db_commands)
+    app.register_blueprint(auth_bp)
 
 
     return app

@@ -11,7 +11,7 @@ class Barber(db.Model):
     email = db.Column(db.String(), nullable = False)
     password = db.Column(db.String(), nullable = False)
     phone = db.Column(db.String(), nullable = False)
-    is_admin = db.Column(db.Boolean(), default=False)
+    is_admin = db.Column(db.Boolean(), default=True)
     time_slots = db.Column(db.String())
     #foreign keys
     service_id = db.Column(db.Integer, db.ForeignKey('services.id'), nullable = False)
