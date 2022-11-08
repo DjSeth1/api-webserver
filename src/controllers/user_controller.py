@@ -4,24 +4,24 @@ from models.user import User
 from models.barber import Barber
 from schemas.user_schema import UserSchema
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from main import unauthorized
+
 
 
 user_bp = Blueprint('users', __name__ , url_prefix='/users')
 
 
-#create a user
-user_bp.route('/', methods=['POST'])
+#create a user #this route is not working
+user_bp.route('/create/', methods=['POST'])
 #@jwt_required()
 def create_user():
-    data = UserSchema().load(request.json)
+    #data = UserSchema().load(request.json)
 
     user = User(
-        f_name = data['f_name'],
-        l_name = data['l_name'],
-        email = data['email'],
+        f_name = request.json['f_name'],
+        l_name = request.json['l_name'],
+        email = request.json['email'],
         password = bcrypt.generate_password_hash(request.json['password']).decode('utf-8'),
-        phone = data['phone']
+        phone = request.json['phone']
 
     )
 
@@ -33,21 +33,20 @@ def create_user():
 
 
 #read all users (get users) - barbers only+ isAdmin required (might be better in barber routes) #come back to this to see how to check if user is barber.
-@user_bp.route('/')
+@user_bp.route('/all_users/', methods = ['GET'])
 #@jwt_required
 def get_all_users():
-    try:
-       if Barber.is_admin == True:
-        stmt = db.select(User).order_by(User.l_name)
-        users = db.session.scalars(stmt)
-        return UserSchema(many = True, exclude =['password']).dump(users)
-    except:
-        return unauthorized, 401
+
+    stmt = db.select(User).order_by(User.l_name)
+    users = db.session.scalars(stmt)
+    return UserSchema(many = True, exclude =['password']).dump(users)
+
 
 
 
 #read one user( get user)
-@user_bp.route('/<int:id>', methods = ['GET'])
+@user_bp.route('/user_details/', methods = ['GET'])
+@jwt_required()
 def get_one_user():
     user_id = get_jwt_identity()
     stmt = db.select(User).filter_by(id=user_id)
@@ -61,7 +60,7 @@ def get_one_user():
 
 #update user info 
 @user_bp.route('/update/', methods = ['PUT', 'PATCH'])
-@jwt_required
+@jwt_required()
 def update_user():
     stmt = db.select(User).filter_by(id = get_jwt_identity())
     user = db.session.scalar(stmt)
@@ -85,7 +84,7 @@ def update_user():
 
 #delete a user 
 @user_bp.route('/delete/', methods=['DELETE'])
-@jwt_required
+@jwt_required()
 def delete_user():
     stmt = db.select(User).filter_by(id = get_jwt_identity)
     user = db.session.scalar(stmt)

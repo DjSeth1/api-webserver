@@ -16,13 +16,13 @@ def create_app():
 
 
     #error handles 
-    @app.errorhandler(401)
-    def unauthorized(err):
-        return {'error': 'You are not authorized to perform this action'}, 401
+    #@app.errorhandler(401)
+    #def unauthorized(err):
+        #return {'error': 'You are not authorized to perform this action'}, 401
 
-    @app.errorhandler(404)
-    def not_found(err):
-        return {'error': str(err)}, 404
+    # @app.errorhandler(404)
+    # def not_found(err):
+    #     return {'error': str(err)}, 404
 
 
 
