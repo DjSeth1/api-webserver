@@ -1,6 +1,7 @@
 from flask import Flask
 from controllers.cli_controller import db_commands
 from controllers.auth_controller import auth_bp
+from controllers.user_controller import user_bp
 from init import db, ma, bcrypt, jwt
 import os
 
@@ -15,7 +16,13 @@ def create_app():
 
 
     #error handles 
+    @app.errorhandler(401)
+    def unauthorized(err):
+        return {'error': 'You are not authorized to perform this action'}, 401
 
+    @app.errorhandler(404)
+    def not_found(err):
+        return {'error': str(err)}, 404
 
 
 
@@ -29,6 +36,7 @@ def create_app():
     #registering blueprints from controllers
     app.register_blueprint(db_commands)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(user_bp)
 
 
     return app
