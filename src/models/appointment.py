@@ -14,8 +14,8 @@ class Appointment(db.Model):
     service_id = db.Column(db.Integer, db.ForeignKey('services.id'), nullable = False)
 
     #relationships
-    user = db.relationship('User', back_populates = 'appointments', uselist = False)
+    user = db.relationship('User', back_populates = 'appointment', uselist = False)
     barber = db.relationship('Barber', back_populates = 'appointments')
-    service = db.relationship('Service', back_populates = 'appointments')
+    service = db.relationship('Service', back_populates = 'appointment')
 
 

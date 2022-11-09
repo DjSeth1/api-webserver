@@ -1,4 +1,4 @@
-from init import db, ma 
+from init import db
 
 
 
@@ -15,7 +15,7 @@ class User(db.Model):
 
 
     #relationships
-    appointment = db.relationship('Appointment', back_populates = 'users', cascade = 'all, delete', uselist = False)
+    appointment = db.relationship('Appointment', back_populates = 'user', cascade = 'all, delete', uselist = False)
    
 
 

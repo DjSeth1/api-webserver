@@ -17,10 +17,9 @@ class Barber(db.Model):
     service_id = db.Column(db.Integer, db.ForeignKey('services.id'), nullable = False)
 
     #relationships
-    appointment = db.relationship('Appointment', back_populates = 'barbers', cascade = 'all, delete')
+    appointments = db.relationship('Appointment', back_populates = 'barber', cascade = 'all, delete')
 
-    service = db.relationship('Service', back_populates = 'barbers', cascade = 'all, delete')
-
+    services = db.relationship('Service', back_populates = 'barber', cascade = 'all, delete')
 
 
 

@@ -80,9 +80,9 @@ def seed_db():
 
     appointments = [
         Appointment(
-            users = users[1],
-            services = services[1],
-            barbers = barbers[0],
+            user = users[1],
+            service = services[1],
+            barber = barbers[0],
             time = '10:00'
         )
     ]
@@ -90,4 +90,6 @@ def seed_db():
     db.session.add_all(appointments)
     db.session.commit()
     print('Tables Seeded!')
+
+
 
