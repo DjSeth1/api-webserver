@@ -10,8 +10,8 @@ class Service(db.Model):
 
 
     #relationships
-    appointments = db.relationship('Appointment', back_populates = 'services', cascade = 'all, delete')
-    barbers = db.relationship('Barber', back_populates = 'services')
+    appointment = db.relationship('Appointment', back_populates = 'services', cascade = 'all, delete')
+    barber = db.relationship('Barber', back_populates = 'services')
 
 
 

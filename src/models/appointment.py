@@ -1,6 +1,8 @@
 from init import db, ma 
 from datetime import time
 
+
+
 class Appointment(db.Model):
     __tablename__ = 'appointments'
 
@@ -12,6 +14,8 @@ class Appointment(db.Model):
     service_id = db.Column(db.Integer, db.ForeignKey('services.id'), nullable = False)
 
     #relationships
-    users = db.relationship('User', back_populates = 'appointments', uselist = False)
-    barbers = db.relationship('Barber', back_populates = 'appointments')
-    services = db.relationship('Service', back_populates = 'appointments')
+    user = db.relationship('User', back_populates = 'appointments', uselist = False)
+    barber = db.relationship('Barber', back_populates = 'appointments')
+    service = db.relationship('Service', back_populates = 'appointments')
+
+

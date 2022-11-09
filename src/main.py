@@ -2,6 +2,7 @@ from flask import Flask
 from controllers.cli_controller import db_commands
 from controllers.auth_controller import auth_bp
 from controllers.user_controller import user_bp
+from controllers.appointment_controller import appointment_bp
 from init import db, ma, bcrypt, jwt
 import os
 
@@ -37,6 +38,7 @@ def create_app():
     app.register_blueprint(db_commands)
     app.register_blueprint(auth_bp)
     app.register_blueprint(user_bp)
+    app.register_blueprint(appointment_bp)
 
 
     return app
