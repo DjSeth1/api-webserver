@@ -60,7 +60,7 @@ def get_one_user():
 
 #update user info 
 @user_bp.route('/update/', methods = ['PUT', 'PATCH'])
-@jwt_required()
+#@jwt_required()
 def update_user():
     stmt = db.select(User).filter_by(id = get_jwt_identity())
     user = db.session.scalar(stmt)

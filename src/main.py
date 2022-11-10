@@ -3,6 +3,8 @@ from controllers.cli_controller import db_commands
 from controllers.auth_controller import auth_bp
 from controllers.user_controller import user_bp
 from controllers.appointment_controller import appointment_bp
+from controllers.service_controller import service_bp
+from controllers.barber_controller import barber_bp
 from init import db, ma, bcrypt, jwt
 import os
 
@@ -39,6 +41,8 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(user_bp)
     app.register_blueprint(appointment_bp)
+    app.register_blueprint(service_bp)
+    app.register_blueprint(barber_bp)
 
 
     return app

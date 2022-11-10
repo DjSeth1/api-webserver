@@ -5,3 +5,4 @@ class ServiceSchema(ma.Schema):
 
     class Meta:
         fields = ('id', 'type', 'price')
+        ordered = True
