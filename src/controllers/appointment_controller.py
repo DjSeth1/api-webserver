@@ -1,6 +1,5 @@
 from flask import Blueprint, request
-from init import db, bcrypt
-from datetime import timedelta
+from init import db
 from models.appointment import Appointment
 from schemas.appointment_schema import AppointmentSchema
 from models.user import User

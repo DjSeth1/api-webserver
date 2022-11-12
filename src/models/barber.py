@@ -1,5 +1,5 @@
-from init import db, ma 
-from datetime import time
+from init import db
+
 
 #model for barber table.
 class Barber(db.Model):

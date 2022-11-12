@@ -3,7 +3,7 @@ from init import db, bcrypt
 from models.user import User
 from schemas.user_schema import UserSchema
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from sqlalchemy.exc import IntegrityError
+
 
 
 

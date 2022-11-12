@@ -1,10 +1,10 @@
-from flask import Blueprint, request, abort
+from flask import Blueprint, request
 from init import db, bcrypt
 from datetime import timedelta
 from models.user import User
 from schemas.user_schema import UserSchema
 from sqlalchemy.exc import IntegrityError
-from flask_jwt_extended import create_access_token, get_jwt_identity
+from flask_jwt_extended import create_access_token
 
 auth_bp = Blueprint('auth', __name__, url_prefix = '/auth')
 
