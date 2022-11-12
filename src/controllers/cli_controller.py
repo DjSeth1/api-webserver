@@ -10,16 +10,19 @@ db_commands = Blueprint('db', __name__)
 
 @db_commands.cli.command('create')
 def create_db():
+    '''Creates all tables via the models.'''
     db.create_all()
     print('Tables Created!')
 
 @db_commands.cli.command('drop')
 def drop_db():
+    '''Drops all tables from database via the models'''
     db.drop_all()
     print('Tables Dropped!')
 
 @db_commands.cli.command('seed')
 def seed_db():
+    '''Seeds the database tables with relevant information declared in the models'''
     services = [
         Service(
             type = 'Hair',

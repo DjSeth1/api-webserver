@@ -24,6 +24,10 @@ def create_app():
     def unauthorized():
         return {'error': 'You are not authorized to perform this action'}, 401
 
+    @app.errorhandler(409)
+    def conflict(err):
+        return {'error': str(err)}, 409
+        
     @app.errorhandler(404)
     def not_found(err):
         return {'error': str(err)}, 404

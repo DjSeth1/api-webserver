@@ -1,5 +1,6 @@
 from init import db, ma 
 
+#Model for service table
 class Service(db.Model):
     __tablename__ = 'services'
 
@@ -10,6 +11,7 @@ class Service(db.Model):
 
 
     #relationships
+    
     appointment = db.relationship('Appointment', back_populates = 'service', cascade = 'all, delete')
 
 

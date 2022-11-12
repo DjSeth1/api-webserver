@@ -8,12 +8,14 @@ barber_bp = Blueprint('barber', __name__, url_prefix='/barber')
 
 @barber_bp.route('/all_barbers/', methods = ['GET'])
 def get_all_barbers():
+    '''Checks the database for all barbers and returns all of Barbers in JSON.'''
     stmt = db.select(Barber)
     barbers = db.session.scalars(stmt)
     return BarberSchema(many = True, exclude = ['password']).dump(barbers)
 
 @barber_bp.route('/<int:id>/', methods = ['GET'])
 def get_one_barbers(id):
+    '''Checks the database for barber and filters it by id. Returns barber JSON'''
     stmt = db.select(Barber).filter_by(id = id)
     barber = db.session.scalar(stmt)
     if barber:

@@ -6,6 +6,7 @@ from marshmallow.validate import Length, Regexp
 
 
 class BarberSchema(ma.Schema):
+    
     appointments = fields.List(fields.Nested('AppointmentSchema', only = ['id', 'time', 'service', 'user']))
 
     #validations

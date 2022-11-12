@@ -1,7 +1,7 @@
 from init import db, ma 
 from datetime import time
 
-
+#model for barber table.
 class Barber(db.Model):
     __tablename__ = 'barbers'
 
@@ -17,6 +17,7 @@ class Barber(db.Model):
 
 
     #relationships
+    #a barber can have many appointments
     appointments = db.relationship('Appointment', back_populates = 'barber', cascade = 'all, delete')
 
 
