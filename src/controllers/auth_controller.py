@@ -18,13 +18,14 @@ def get_user():
 
 @auth_bp.route('/register/', methods = ['POST'])
 def auth_register():
+    data = UserSchema().load(request.json)
     try:
         user = User(
-            email = request.json['email'],
+            email = data['email'],
             password = bcrypt.generate_password_hash(request.json['password']).decode('utf-8'),
-            f_name = request.json.get('f_name'),
-            l_name = request.json.get('l_name'),
-            phone = request.json.get('phone')
+            f_name = data.get('f_name'),
+            l_name = data.get('l_name'),
+            phone = data.get('phone')
         )
         db.session.add(user)
         db.session.commit()
@@ -38,7 +39,7 @@ def auth_login():
     user = db.session.scalar(stmt)
     if user and bcrypt.check_password_hash(user.password, request.json['password']):
         token = create_access_token(identity=str(user.id), expires_delta=timedelta(days=1))
-        return {'email': user.email, 'token': token, 'is_admin': user.is_admin}
+        return {'email': user.email, 'token': token, 'is_admin': user.is_admin}, 308
     else:
         return {'error': 'Invalid email or password'}, 401
 

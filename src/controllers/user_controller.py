@@ -1,33 +1,13 @@
 from flask import Blueprint, request
 from init import db, bcrypt
 from models.user import User
-from models.barber import Barber
 from schemas.user_schema import UserSchema
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from sqlalchemy.exc import IntegrityError
 
 
 
 user_bp = Blueprint('users', __name__ , url_prefix='/users')
-
-
-#create a user #this route is not working
-user_bp.route('/create/', methods=['POST'])
-#@jwt_required()
-def create_user():
-    #data = UserSchema().load(request.json)
-
-    user = User(
-        f_name = request.json['f_name'],
-        l_name = request.json['l_name'],
-        email = request.json['email'],
-        password = bcrypt.generate_password_hash(request.json['password']).decode('utf-8'),
-        phone = request.json['phone']
-
-    )
-
-    db.session.add(user)
-    db.session.commit()
-    return UserSchema(exclude = ['password']).dump(user), 201
 
 
 
@@ -45,10 +25,10 @@ def get_all_users():
 
 
 #read one user( get user)
-@user_bp.route('/user_details/', methods = ['GET'])
-@jwt_required()
+@user_bp.route('/<int:id>/', methods = ['GET'])
+#@jwt_required()
 def get_one_user():
-    user_id = get_jwt_identity()
+    user_id = user_id
     stmt = db.select(User).filter_by(id=user_id)
     user = db.session.scalar(stmt)
     if user:

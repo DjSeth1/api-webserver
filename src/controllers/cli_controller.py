@@ -71,7 +71,7 @@ def seed_db():
             phone = '0214253543', 
             is_admin = True,
             time_slots = ['10:00', '11:00'],
-            services = services[1]
+            #services = services[1]
         )
     ]
 

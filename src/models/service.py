@@ -11,6 +11,6 @@ class Service(db.Model):
 
     #relationships
     appointment = db.relationship('Appointment', back_populates = 'service', cascade = 'all, delete')
-    barber = db.relationship('Barber', back_populates = 'services')
+
 
 
