@@ -16,7 +16,7 @@ appointment_bp = Blueprint('appointment', __name__, url_prefix='/appointment')
 #CREATE APPOINTMENT
 
 @appointment_bp.route('create/<int:user_id>', methods = ['POST'])
-#@jwt_required()
+@jwt_required()
 def create_appointment(user_id):
     user_id = get_jwt_identity()
     data = AppointmentSchema().load(request.json)

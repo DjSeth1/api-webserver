@@ -5,6 +5,7 @@ from controllers.user_controller import user_bp
 from controllers.appointment_controller import appointment_bp
 from controllers.service_controller import service_bp
 from controllers.barber_controller import barber_bp
+from marshmallow.exceptions import ValidationError
 from init import db, ma, bcrypt, jwt
 import os
 
@@ -19,14 +20,25 @@ def create_app():
 
 
     #error handles 
-    #@app.errorhandler(401)
-    #def unauthorized(err):
-        #return {'error': 'You are not authorized to perform this action'}, 401
+    @app.errorhandler(401)
+    def unauthorized():
+        return {'error': 'You are not authorized to perform this action'}, 401
 
-    # @app.errorhandler(404)
-    # def not_found(err):
-    #     return {'error': str(err)}, 404
-
+    @app.errorhandler(404)
+    def not_found(err):
+        return {'error': str(err)}, 404
+    
+    @app.errorhandler(400)
+    def bad_request(err):
+        return {'error': str(err)}, 400
+    
+    @app.errorhandler(ValidationError)
+    def validation_error(err):
+        return {'error': err.messages}, 400
+    
+    @app.errorhandler(KeyError)
+    def key_error(err):
+        return {'error': f'The field {err} is required.'}, 400
 
 
     #instances of the components
