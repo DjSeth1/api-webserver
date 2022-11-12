@@ -70,8 +70,8 @@ def seed_db():
             password = bcrypt.generate_password_hash('dogsandcats2').decode('utf-8'),
             phone = '0214253543', 
             is_admin = True,
-            time_slots = ['10:00', '11:00'],
-            #services = services[1]
+            time_slots = ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'],
+
         )
     ]
 

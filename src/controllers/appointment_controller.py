@@ -15,20 +15,21 @@ appointment_bp = Blueprint('appointment', __name__, url_prefix='/appointment')
 
 #CREATE APPOINTMENT
 
-@appointment_bp.route('/', methods = ['POST'])
+@appointment_bp.route('create/<int:user_id>', methods = ['POST'])
 #@jwt_required()
-def create_appointment():
+def create_appointment(user_id):
+    user_id = get_jwt_identity()
     data = AppointmentSchema().load(request.json)
-    stmt = db.select(User).filter_by(id = id)
+    stmt = db.select(User).filter_by(id = user_id)
     user = db.session.scalar(stmt)
 
     if user:
         appointment = Appointment(
-            time = data['time'],
-            user = get_jwt_identity(),
-            barber = data['barber'],
-            service = data['service']
-,
+            time = data.get('time'),
+            user = user_id,
+            barber = data.get('barber'),
+            service = data.get('service')
+
         )
         db.session.add(appointment)
         db.session.commit()
@@ -36,7 +37,7 @@ def create_appointment():
         return {'success': 'You have successfully created an appointment', 'appointment': AppointmentSchema().dump(appointment)}
 
     else:
-        {'error': 'This user does not exist'}
+        return {'error': 'This user does not exist'}
     
 
 
@@ -53,6 +54,7 @@ def get_all_appointments():
 
 #READ ONE APPOINTMENT
 @appointment_bp.route('/<int:id>/', methods = ['GET'])
+@jwt_required()
 def get_one_appointment(id):
     stmt = db.select(Appointment).filter_by(id=id)
     appointment = db.session.scalar(stmt)
@@ -65,8 +67,9 @@ def get_one_appointment(id):
 
 #READ ONE APPONTMENT (USERS OWN APPOINTMENT)
 @appointment_bp.route('/user_appointment/<int:user_id>', methods = ['GET'])
-#@jwt_required()
+@jwt_required()
 def get_user_appointment(user_id):
+    user_id = get_jwt_identity()
     stmt = db.select(Appointment).filter_by(user_id = user_id)
     appointment = db.session.scalar(stmt)
     db.session.scalar(stmt)
@@ -76,16 +79,17 @@ def get_user_appointment(user_id):
         return {'error': f'This user does not have an appointment with id {user_id}'}, 404
 
 
-#UPDATE existing Appointment
+#UPDATE existing Appointment BY USER
 @appointment_bp.route('/user_appointment/<int:user_id>', methods = ['POST', 'PATCH'])
-#jwt required
+@jwt_required()
 def update_user_appointment(user_id):
+    user_id = get_jwt_identity()
     stmt = db.select(Appointment).filter_by(user_id = user_id)
     appointment = db.session.scalar(stmt)
     if appointment:
         data = AppointmentSchema().load(request.json)
         appointment.time = data['time'] or appointment.time
-        appointment.service = appointment.service
+        appointment.service = data['service'] or appointment.service
         appointment.user = appointment.user
         appointment.barber = appointment.barber
         
@@ -98,7 +102,9 @@ def update_user_appointment(user_id):
 
 #DELETE EXISTING APPOINTMENT
 @appointment_bp.route('/user_appointment/<int:user_id>', methods = ['DELETE'])
+@jwt_required()
 def delete_user_appointment(user_id):
+    user_id = get_jwt_identity()
     stmt = db.select(Appointment).filter_by(user_id = user_id)
     appointment = db.session.scalar(stmt)
     if appointment:

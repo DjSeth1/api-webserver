@@ -9,7 +9,7 @@ class ServiceSchema(ma.Schema):
     
 #validations
     type = fields.String(required = True, validate=OneOf(VALID_TYPES, error= f'The Service must be of a one of the following {VALID_TYPES}'))
-    price = fields.String(required=True, validate=OneOf(VALID_PRICES, error= f'Price entered for service must be one of {VALID_PRICES}'))
+    price = fields.Integer(required=True, validate=OneOf(VALID_PRICES, error= f'Price entered for service must be one of {VALID_PRICES}'))
 
 
 
