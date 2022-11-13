@@ -13,7 +13,7 @@ auth_bp = Blueprint('auth', __name__, url_prefix = '/auth')
 
 @auth_bp.route('/register/', methods = ['POST'])
 def auth_register():
-    '''Allows a new user to register with their details, it checks if user email already exists, if it is, it returns error. If no email exists, user details are added to the database.'''
+    '''Allows a new user to register with their details, it checks if user email already exists, if it is, it returns error. If no email exists, user details are added to the database, it returns the newly created user.'''
     data = UserSchema().load(request.json)
     try:
         user = User(
@@ -31,7 +31,7 @@ def auth_register():
 
 @auth_bp.route('/login/', methods=['POST'])
 def auth_login():
-    '''Function searches for users's email and checks if they exist, if they do it asks user to input password, and checks their email and password, which is encrypted against the database. If the bcrypt values match for the password, user is authenticated. If either record is incorrect, error is returned'''
+    '''Function searches for users's email and checks if they exist, if they do it asks user to input password, and checks their email and password, checks via bcrypt. If the bcrypt values match for the password, user is authenticated and details + token is returned. If either record is incorrect, error is returned'''
     stmt = db.select(User).filter_by(email=request.json['email'])
     user = db.session.scalar(stmt)
     if user and bcrypt.check_password_hash(user.password, request.json['password']):

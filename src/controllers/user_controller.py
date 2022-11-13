@@ -43,7 +43,7 @@ def get_one_user(id):
 @user_bp.route('/<int:user_id>/', methods = ['PUT', 'PATCH'])
 @jwt_required()
 def update_user(user_id):
-    '''Checks for user's identity via the JWT token, if authorised, returns the users details via the JWT identity. Then the user can change their details with all fields optional. The changes get commit if successsfully changed. If the user does not exist, it returns an error.'''
+    '''Checks for user's identity via the JWT token, if authorised, returns the users details via the JWT identity. Then the user can change their details with all fields optional. The changes get commit and returned if successsfully changed. If the user does not exist, it returns an error.'''
     
     user_id = get_jwt_identity()
     stmt = db.select(User).filter_by(id = user_id)
@@ -70,7 +70,7 @@ def update_user(user_id):
 @user_bp.route('/<int:user_id>/', methods=['DELETE'])
 @jwt_required()
 def delete_user(user_id):
-    """ Deletes user by first checking that the user is JWT identified, then allows access to delete. If no JWT is found or the user does not exist, an error is returned."""
+    """ Deletes user by first checking that the user is JWT identified, then allows access to delete and returns deleted user details of name. If no JWT is found or the user does not exist, an error is returned."""
     user_id = get_jwt_identity()
 
     stmt = db.select(User).filter_by(id = user_id)
