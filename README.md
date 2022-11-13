@@ -210,11 +210,11 @@ This SQLAlchemy Model has attributes that derive foreign keys from all the paren
     
     #relationships
     #appointment can have one user
-    user = db.relationship('User', back_populates = 'appointment', uselist = False, cascade = 'all, delete')
+    user = db.relationship('User', back_populates = 'appointment', uselist = False)
     #appointment can have one barber
-    barber = db.relationship('Barber', back_populates = 'appointments', cascade = 'all, delete')
+    barber = db.relationship('Barber', back_populates = 'appointments')
     #appointment can have one service.
-    service = db.relationship('Service', back_populates = 'appointments', cascade = 'all, delete')
+    service = db.relationship('Service', back_populates = 'appointments')
 ```
 
 Notice that the variables have been left singlular, as well as included a cascade all delete, in the event that if a barber, user or a service is deleted, that appointment is deleted. 

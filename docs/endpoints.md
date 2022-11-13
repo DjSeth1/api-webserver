@@ -224,7 +224,7 @@ services{
 
 ```json
 {
-	"id" : "1"
+	"id" : "1",
 	"type": "Hair",
 	"price": "30"
 },
@@ -269,7 +269,7 @@ services{
     
     ```json
     {
-    	"id": "1"
+    	"id": "1",
     	"email": "divijseth@gmail.com",
     	"f_name": "Divij",
     	"l_name": "Seth",
@@ -349,7 +349,7 @@ services{
 
 ```json
 {
-	"phone": "021454563"
+	"phone": "021746435"
 }
 ```
 
@@ -357,16 +357,18 @@ services{
     
     ```json
     {	
-    	"success": "You have updated your profile successfully",
-      "user details": {
-    		"id": "1",
-    		"email": "divijseth@gmail.com",
-    		"f_name": "Divij",
-    		"l_name": "Seth",
-    		"phone": "021454563",
-    	}
+    	
+    "success": "You have updated your profile successfully",
+    "user details": {
+        "id": 1,
+        "f_name": "Jack",
+        "l_name": "Delany",
+        "email": "delany.jack@gmail.com",
+        "phone": "021746435",
+        "is_admin": false
     }
-    ```
+    ``` 
+
     
 - error message
     
@@ -460,44 +462,34 @@ services{
 - Request Body:
 
 ```json
-{
-	"user":Getsjwtidentity
-	"time": "10:00",
-	"barber": {
-			"f_name" : "Byron",
-			"l_name" : "Hogan"
-	},
-	"service": {
-			"type": "Hair",
-			"price": "30"
-	}
-}
+ {
+     "time": "10:00",
+     "user_id": 1,
+     "barber_id": 1,
+     "service_id": 1
+ }
+
+
+
 ```
 
 - Request Response
 
 ```json
 {
-"success": "You have successfully created an appointment", "appointment": 
-[
-    {
-        "id": 1,
+    "success": "You have successfully created an appointment",
+    "appointment": {
+        "id": 7,
         "time": "10:00",
         "barber": {
             "f_name": "Byron",
             "l_name": "Hogan"
         },
         "service": {
-            "type": "Hair and Beard",
-            "price": 45
-        },
-        "user": {
-            "id": 2,
-            "f_name": "Aditya",
-            "l_name": "Arora"
+            "type": "Hair",
+            "price": 30
         }
     }
-]
 }
 ```
 
@@ -590,7 +582,7 @@ services{
 
 ### /appointment/user_appointment/<int:user_id>
 
-- Methods: POST, PATCH
+- Methods: PUT, PATCH
 - Arguments: user_id
 - Description: update appointment
 - Authentication: @jwt_required()
@@ -598,23 +590,22 @@ services{
 - Request Body:
 
 ```json
-{
-	"time": "12:00"
-	"service": {
-		"type": "Hair and Beard",
-		"price": "45"
-	}
-}
+
+ {
+    "service_id": 2,
+    "time": "12:00"
+ }
+
+
 ```
 
 - Response Body:
 
 ```json
-[
-	{"success" : "You have updated your appointment successfully.", '
-	"appointment details" :
-    {
-        "id": 1,
+{
+    "success": "You have updated your appointment successfully.",
+    "appointment details": {
+        "id": 5,
         "time": "12:00",
         "barber": {
             "f_name": "Byron",
@@ -624,9 +615,8 @@ services{
             "type": "Hair and Beard",
             "price": 45
         }
-		}
-	}
-]
+    }
+}
 ```
 
 - Error Body if no user ID
