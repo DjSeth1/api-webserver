@@ -50,17 +50,16 @@ def update_user(user_id):
     user = db.session.scalar(stmt)
 
     if user:
-        data = UserSchema().load(request.json, partial = True)
+        data = UserSchema().load(request.json, partial=True)
         user.f_name = data.get('f_name') or user.f_name
         user.l_name = data.get('l_name') or user.l_name
         user.email = data.get('email') or user.email
-        user.password = bcrypt.generate_password_hash(request.json['password']).decode('utf-8') or user.password
         user.phone = data.get('phone') or user.phone
 
         db.session.commit()
         return {
             'success': 'You have updated your profile successfully',
-            'user details': UserSchema().dump(user)
+            'user details': UserSchema(exclude=['password']).dump(user)
         }
     else:
         return {'error': 'User does not exist'}, 404
