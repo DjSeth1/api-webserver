@@ -111,7 +111,7 @@ However, the same can be achieved using python in SQL Alchemy, as seen below
 @user_bp.route('/all_users/', methods = ['GET'])
 @jwt_required()
 def get_all_users():
-	  stmt = db.select(User).order_by(User.l_name)
+	stmt = db.select(User).order_by(User.l_name)
     users = db.session.scalars(stmt)
     return UserSchema(many = True, exclude =['password']).dump(users)
 ```
@@ -147,7 +147,7 @@ Refer to documentation [here](docs/endpoints.md)
     - This library is used to generate tokens that may be used to grant authorised users access to API services without requiring login information for each request. JSON Online tokens have become the industry standard for accessing web applications, allowing a server to decode a token's content to authenticate users into a system. JWTs are an excellent blend of basic and bearer tokens. Bearer tokens are more difficult to manage since they must be maintained in a database, whereas basic tokens are too simple to penetrate. JWTs have combined the advantages of both types of tokens to create a simple and safe token that is easy to manage because no database is required and significantly more secure than a basic session token.
 - **BCRYPT**
     - Flask bcrypt is a third-party package that enables developers to safeguard passwords using bcrypt hashing methods. Bcrypt is based on the Blowfish cypher and employs salting, which adds an additional element of unpredictability to the hash to better encrypt and secure sensitive data. The bcrypt hashing functions are designed to be slow in order to provide additional security against brute force assaults. The slower the hashing function, the more secure.
-    - 
+  
 - **PSYCOPG2**
     - This acts as a bridge between the PostgresQL database and flask application.
     
