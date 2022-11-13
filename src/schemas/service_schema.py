@@ -6,6 +6,7 @@ VALID_TYPES = ['Hair', 'Hair and Beard']
 VALID_PRICES = [30, 45]
 
 class ServiceSchema(ma.Schema):
+
     
 #validations
     type = fields.String(required = True, validate=OneOf(VALID_TYPES, error= f'The Service must be of a one of the following {VALID_TYPES}'))

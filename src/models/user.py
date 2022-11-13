@@ -15,7 +15,7 @@ class User(db.Model):
 
 
     #relationships -
-    appointment = db.relationship('Appointment', back_populates = 'user', cascade = 'all, delete', uselist = False)
+    appointment = db.relationship('Appointment', back_populates = 'user',  uselist = False, cascade = 'all, delete')
    
 
 

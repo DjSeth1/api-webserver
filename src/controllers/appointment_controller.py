@@ -19,22 +19,24 @@ appointment_bp = Blueprint('appointment', __name__, url_prefix='/appointment')
 def create_appointment(user_id):
     '''Creates appointment for a registered user and checks for jwt token to identify the user. Once identified the user can create the appointment using the appointment schemas and model. Will return the newly created appointment. Otherwise it will return an error of user not existing.'''
     user_id = get_jwt_identity()
-    data = AppointmentSchema().load(request.json)
+
     stmt = db.select(User).filter_by(id = user_id)
     user = db.session.scalar(stmt)
 
     if user:
+        data = AppointmentSchema().load(request.json)
         appointment = Appointment(
-            time = data.get('time'),
-            user = user_id,
-            barber = data.get('barber'),
-            service = data.get('service')
-
+            time = data['time'],
+            user_id = data['user_id'],
+            barber_id = data['barber_id'],
+            service_id= data['service_id']
         )
+
+
         db.session.add(appointment)
         db.session.commit()
 
-        return {'success': 'You have successfully created an appointment', 'appointment': AppointmentSchema().dump(appointment)}
+        return {'success': 'You have successfully created an appointment', 'appointment': AppointmentSchema(exclude=['user', 'barber_id', 'user_id', 'service_id']).dump(appointment)}
 
     else:
         return {'error': 'This user does not exist'}
@@ -84,7 +86,7 @@ def get_user_appointment(user_id):
 
 
 #UPDATE existing Appointment BY USER
-@appointment_bp.route('/user_appointment/<int:user_id>', methods = ['POST', 'PATCH'])
+@appointment_bp.route('/user_appointment/<int:user_id>', methods = ['PUT', 'PATCH'])
 @jwt_required()
 def update_user_appointment(user_id):
     '''User can update their own appointment. First it checks for users verification, then once verified it allows user to update their appointment. If no appointment exists, it will show there is no appointment under that user's id. If there is it will return the newly created appointment.'''
@@ -92,15 +94,15 @@ def update_user_appointment(user_id):
     stmt = db.select(Appointment).filter_by(user_id = user_id)
     appointment = db.session.scalar(stmt)
     if appointment:
-        data = AppointmentSchema().load(request.json)
-        appointment.time = data['time'] or appointment.time
-        appointment.service = data['service'] or appointment.service
+        data = AppointmentSchema().load(request.json, partial = True)
+        appointment.time = data.get('time') or appointment.time
+        appointment.service_id = data.get('service_id') or appointment.service_id
         appointment.user = appointment.user
         appointment.barber = appointment.barber
         
         db.session.commit()
         return {
-            'success' : 'You have updated your appointment successfully.', 'appointment details' : AppointmentSchema(exclude= ['user']).dump(appointment)
+            'success' : 'You have updated your appointment successfully.', 'appointment details' : AppointmentSchema(exclude= ['user', 'service_id', 'user_id', 'barber_id']).dump(appointment)
         }
     else:
         return {'error': f'Appointment of user with id {user_id} does not exist'}, 404

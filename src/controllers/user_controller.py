@@ -41,21 +41,21 @@ def get_one_user(id):
 
 #update user info 
 @user_bp.route('/<int:user_id>/', methods = ['PUT', 'PATCH'])
-@jwt_required()
+#@jwt_required()
 def update_user(user_id):
     '''Checks for user's identity via the JWT token, if authorised, returns the users details via the JWT identity. Then the user can change their details with all fields optional. The changes get commit and returned if successsfully changed. If the user does not exist, it returns an error.'''
     
-    user_id = get_jwt_identity()
+    #user_id = #get_jwt_identity()
     stmt = db.select(User).filter_by(id = user_id)
     user = db.session.scalar(stmt)
 
     if user:
-        data = UserSchema().load(request.json)
-        user.f_name = data['f_name'] or user.f_name
-        user.l_name = data['l_name'] or user.l_name
-        user.email = data['email'] or user.email
+        data = UserSchema().load(request.json, partial = True)
+        user.f_name = data.get('f_name') or user.f_name
+        user.l_name = data.get('l_name') or user.l_name
+        user.email = data.get('email') or user.email
         user.password = bcrypt.generate_password_hash(request.json['password']).decode('utf-8') or user.password
-        user.phone = data['phone'] or user.phone
+        user.phone = data.get('phone') or user.phone
 
         db.session.commit()
         return {
