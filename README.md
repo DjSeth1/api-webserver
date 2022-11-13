@@ -157,6 +157,9 @@ Refer to documentation [here](docs/endpoints.md)
 - **pip review**
     - pip-review is a module that displays a list of Python Packages Index packages that are newer than the versions presently installed in a Python environment. The `pip-review` programme will provide a list of currently installed packages with updated versions on PyPi. Running `pip-review -aC` will scan for newer versions of packages and instal all of the newest versions in the current Python environment.
 
+- **Flask Blueprint**
+    - Used to create controller endpoints as well as modularise the Flask app into an MVC format. This blueprint will also allow to register the blueprint in main where all the routes are situated. 
+
 ### R8 - Describe your projects models in terms of the relationships they have with each other.
 
 In terms of the SQL Alchemy Models in the Barbershop booking API, they are related to the data that needs to be stored and manipulated for each entity. In particular, we have Users, Appointments, Services and Barbers. 
@@ -165,7 +168,7 @@ Each of these are derived from the base class of `db.Model` from SQLAlchemy, and
 
 Lets take a look at these Models in full as well as their relationships, we will start with Users, Barbers, Services then Appointments as models
 
-Subsequently, we will look at the schemas that allow us to relate the models in SQLAlchemy and work with Marshmallow to return JSON requests. 
+Subsequently, we will look at the schemas that allow us to relate the models in SQLAlchemy and work with Marshmallow to return JSON requests, aswell as validate all incoming requests.
 
 **Users Model**
 
@@ -220,7 +223,7 @@ Now we will discuss the Marshmallow schemas. When displaying results to the end 
 
 **User Schema**
 
-The attributes are as shown below, listed within the fields, however there is an additional field ‘appointments’. This is to signal that there is a relationship between the two. The extra field is data that we ant to be display with each user, so if a user has an appointment, it will show their appointment details in JSON format. To achieve this we have created a relationship using `fields.Nested` within the schema, which allows a serialised object return when viewing users. 
+The attributes are as shown below, listed within the fields, however there is an additional field ‘appointments’. This is to signal that there is a relationship between the two. The extra field is data that we want to be display with each user, so if a user has an appointment, it will show their appointment details in JSON format. To achieve this we have created a relationship using `fields.Nested` within the schema, which allows a serialised object return when viewing users. 
 
 ```python
 #User Schema
@@ -230,7 +233,7 @@ class Meta:
         ordered = True
 ```
 
-Note that this excludes the user, as we are displaying a result with the user’s details already present to gather only the absoluten neccessary information required per request. 
+Note that this excludes the user, as we are displaying a result with the user’s details already present to gather only the absolutely neccessary information required per request. 
 
 **Barber Schema**
 
@@ -275,9 +278,9 @@ In this case, since there are relationships between user and appointment, barber
 
 The database that wil store the data and relationships in the Barbershop API consists of 4 tables; Users, Serivces, Barbers and Appointments.
 
-Each table has columns that represent an attribute, the tables include a primary key denoted by the table’s ID, which makes the table uniquely identifiable when using it to relate other tables in the databse. There are also Foreign keys that are used particularly in the Appointments table. 
+Each table has columns that represent an attribute, the tables include a primary key denoted by the table’s ID, which makes the table uniquely identifiable when using it to relate other tables in the database. There are also Foreign keys that are used particularly in the Appointments table. 
 
-Relationships between these tables will be built by associating the primary key in one table with an extra attribute in another table known as a foreign key. The foreign keys are also termed id, but they are prefixed with the table with which they are associated.
+Relationships between these tables will be built by associating the primary key in one table with a foreign key attribute in another table known and denoted FK as seen in the ERD. The foreign keys are also termed id, but they are prefixed with the table with which they are associated. For example in appointments, user_id is Foreign key that comes from the primary key of the user table.
 
 As you can see in the ERD. The primary keys of ‘users’, ‘services’ and ‘barbers ‘are used as foreign keys in ‘appointments’. This shows that there is a relationship between these tables. The foreign keys are named as the foreign key id to denote that this key is coming from the primary key of another table which is named. For example ‘user_id FK’ in ‘appointments’ is related to the ‘users’ table.
 
