@@ -11,8 +11,9 @@ class Service(db.Model):
 
 
     #relationships
+     #each service can have many appointments. 
     
-    appointment = db.relationship('Appointment', back_populates = 'service', cascade = 'all, delete')
+    appointments = db.relationship('Appointment', back_populates = 'service', cascade = 'all, delete')
 
 
 

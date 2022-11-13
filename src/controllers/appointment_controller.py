@@ -71,13 +71,14 @@ def get_one_appointment(id):
 @appointment_bp.route('/user_appointment/<int:user_id>', methods = ['GET'])
 @jwt_required()
 def get_user_appointment(user_id):
-    '''User can search for their own appointment. First this functioin checks database to confirm the user through JWT, then it checks if there is an appointment under that name. If there is, appointment details are  shown, otherwise no appointment error is returned.'''
+    '''User can search for their own appointment. First this functioin checks database to confirm the user through JWT, then it checks if there is an appointment under that name. If there is, appointment details are  shown excluding the user details since the user is the one checking their own appointment, otherwise no appointment error is returned.'''
+    
     user_id = get_jwt_identity()
     stmt = db.select(Appointment).filter_by(user_id = user_id)
     appointment = db.session.scalar(stmt)
     db.session.scalar(stmt)
     if appointment:
-        return AppointmentSchema().dump(appointment)
+        return AppointmentSchema(exclude = ['user']).dump(appointment)
     else:
         return {'error': f'This user does not have an appointment with id {user_id}'}, 404
 
@@ -99,7 +100,7 @@ def update_user_appointment(user_id):
         
         db.session.commit()
         return {
-            'success' : 'You have updated your appointment successfully.', 'appointment details' : AppointmentSchema().dump(appointment)
+            'success' : 'You have updated your appointment successfully.', 'appointment details' : AppointmentSchema(exclude= ['user']).dump(appointment)
         }
     else:
         return {'error': f'Appointment of user with id {user_id} does not exist'}, 404

@@ -14,7 +14,7 @@ class User(db.Model):
     is_admin = db.Column(db.Boolean(), default=False)
 
 
-    #relationships
+    #relationships -
     appointment = db.relationship('Appointment', back_populates = 'user', cascade = 'all, delete', uselist = False)
    
 

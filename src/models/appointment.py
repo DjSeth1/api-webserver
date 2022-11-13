@@ -20,6 +20,6 @@ class Appointment(db.Model):
     #appointment can have one barber
     barber = db.relationship('Barber', back_populates = 'appointments', cascade = 'all, delete')
     #appointment can have one service.
-    service = db.relationship('Service', back_populates = 'appointment', cascade = 'all, delete')
+    service = db.relationship('Service', back_populates = 'appointments', cascade = 'all, delete')
 
 

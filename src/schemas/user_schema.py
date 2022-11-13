@@ -6,7 +6,7 @@ from marshmallow.validate import Length, Regexp
 class UserSchema(ma.Schema):
 
     #validation
-    appointments = fields.Nested('AppointmentSchema', exclude =['user'])
+    appointments = fields.Nested('AppointmentSchema', exclude=['user'])
 
     #validations
     f_name = fields.String(required = True, validate=Length(min=1, error='First name must be at least 1 character in length'))
